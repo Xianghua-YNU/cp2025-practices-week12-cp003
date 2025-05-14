@@ -87,7 +87,7 @@ def plot_hubble_diagram_with_deceleration(z, mu, mu_err, H0, a1):
     return fig
 
 if __name__ == "__main__":
-    data_file = "data/supernova_data.txt"
+    data_file = "../data/supernova_data.txt"
     z, mu, mu_err = load_supernova_data(data_file)
 
     H0, H0_err = hubble_fit(z, mu, mu_err)
