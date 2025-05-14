@@ -97,14 +97,18 @@ if __name__ == "__main__":
     
     # V(t)模型拟合
     # 初始参数猜测: [τ=1.0]
+   # V(t)模型拟合
+    # 初始参数猜测: [τ=1.0]
     popt_V, pcov_V = fit_model(t_V, V_data, V_model, p0=[1.0])
-    print(f"V(t)模型拟合参数: τ = {popt_V[0]:.3f}")  # 输出拟合得到的时间常数
+    perr_V = np.sqrt(np.diag(pcov_V))  # 计算参数的标准误差
+    print(f"V(t)模型拟合参数: τ = {popt_V[0]:.3f} ± {perr_V[0]:.3f}") 
     
     # W(t)模型拟合
     # 初始参数猜测: [A=1.0, τ=1.0]
     popt_W, pcov_W = fit_model(t_W, W_data, W_model, p0=[1.0, 1.0])
-    print(f"W(t)模型拟合参数: A = {popt_W[0]:.3f}, τ = {popt_W[1]:.3f}")  # 输出拟合参数
-    
-    # 结果可视化
+    perr_W = np.sqrt(np.diag(pcov_W))  # 计算参数的标准误差
+    print(f"W(t)模型拟合参数: A = {popt_W[0]:.3f} ± {perr_W[0]:.3f}, τ = {popt_W[1]:.3f} ± {perr_W[1]:.3f}")    # 结果可视化
     plot_results(t_V, V_data, V_model, popt_V, 'V(t) Model Fit')  # 绘制V模型拟合结果
     plot_results(t_W, W_data, W_model, popt_W, 'W(t) Model Fit')  # 绘制W模型拟合结果
+
+
