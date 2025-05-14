@@ -5,64 +5,42 @@ from scipy.optimize import curve_fit
 def breit_wigner(E, Er, Gamma, fr):
     """
     Breit-Wigner共振公式
-    
+
+    σ(E) = fr * (Gamma^2 / 4) / ((E - Er)^2 + (Gamma^2 / 4))
+
     参数:
         E (float or numpy.ndarray): 能量(MeV)
         Er (float): 共振能量(MeV)
         Gamma (float): 共振宽度(MeV)
         fr (float): 共振强度(mb)
-        
+
     返回:
         float or numpy.ndarray: 共振截面(mb)
     """
-    # TODO: 在此实现Breit-Wigner公式 (约1行代码)
-    # [STUDENT_CODE_HERE]
-    raise NotImplementedError("请在 {} 中实现此函数".format(__file__))
+    return fr * (Gamma**2 / 4) / ((E - Er)**2 + (Gamma**2 / 4))
 
 def fit_without_errors(energy, cross_section):
     """
     不考虑误差的Breit-Wigner拟合
-    
-    参数:
-        energy (numpy.ndarray): 能量数据(MeV)
-        cross_section (numpy.ndarray): 截面数据(mb)
-        
-    返回:
-        tuple: 包含以下元素的元组
-            - popt (array): 拟合参数 [Er, Gamma, fr]
-            - pcov (2D array): 参数的协方差矩阵
     """
-    # 初始猜测值
     Er_guess = 75.0
     Gamma_guess = 50.0
     fr_guess = 10000.0
-    
-    # TODO: 使用curve_fit进行拟合 (约1行代码)
-    # [STUDENT_CODE_HERE]
-    raise NotImplementedError("请在 {} 中实现此函数".format(__file__))
+    popt, pcov = curve_fit(breit_wigner, energy, cross_section,
+                        p0=[Er_guess, Gamma_guess, fr_guess])
+    return popt, pcov
 
 def fit_with_errors(energy, cross_section, errors):
     """
     考虑误差的Breit-Wigner拟合
-    
-    参数:
-        energy (numpy.ndarray): 能量数据(MeV)
-        cross_section (numpy.ndarray): 截面数据(mb)
-        errors (numpy.ndarray): 误差数据(mb)
-        
-    返回:
-        tuple: 包含以下元素的元组
-            - popt (array): 拟合参数 [Er, Gamma, fr]
-            - pcov (2D array): 参数的协方差矩阵
     """
-    # 初始猜测值
     Er_guess = 75.0
     Gamma_guess = 50.0
     fr_guess = 10000.0
-    
-    # TODO: 使用curve_fit进行拟合，考虑误差 (约1行代码)
-    # [STUDENT_CODE_HERE]
-    raise NotImplementedError("请在 {} 中实现此函数".format(__file__))
+    popt, pcov = curve_fit(breit_wigner, energy, cross_section,
+                        sigma=errors, absolute_sigma=True,
+                        p0=[Er_guess, Gamma_guess, fr_guess])
+    return popt, pcov
 
 def plot_fit_results(energy, cross_section, errors, popt, pcov, title):
     """
